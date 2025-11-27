@@ -122,6 +122,10 @@ def blog_details():
 def contact():
     return render_template('public/contact.html')
 
+# @app.route('/login')
+# def login():
+#     return render_template('login/login.html')
+
 
 @app.route('/services')
 def services():
@@ -135,10 +139,6 @@ def elements():
 # --- ROUTE LOGIN (PINTU MASUK) ---
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # Jika sudah login, lempar langsung ke dashboard
-    if 'user_id' in session:
-        return redirect(url_for('admin_dashboard'))
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -173,6 +173,9 @@ def admin_dashboard():
     - jumlah pendaftaran per program per bulan tahun ini
     - pemasukan bulan ini & total setahun (untuk kartu kecil)
     """
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
     today = datetime.utcnow().date()
     year = today.year
     year_str = str(year)
