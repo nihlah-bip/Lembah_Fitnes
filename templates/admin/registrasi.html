@@ -1,0 +1,173 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Registrasi Transaksi{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Transaksi &amp; Pendaftaran Baru</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Formulir Pendaftaran</h6>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('registrasi') }}" method="POST">
+
+                <!-- PILIH PROGRAM -->
+                <div class="form-group">
+                    <label class="font-weight-bold">Pilih Program</label>
+                    <select name="program" id="pilihProgram" class="form-control" onchange="updateForm()" required>
+                        <option value="" selected disabled>-- Pilih Salah Satu --</option>
+                        <option value="Insidental">Insidental (Harian)</option>
+                        <option value="Reguler">Member Reguler (Bulanan)</option>
+                        <option value="Personal Trainer">Member Personal Trainer (Paket)</option>
+                    </select>
+                </div>
+
+                <hr>
+
+                <!-- DATA DASAR -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nama Lengkap</label>
+                            <input type="text" name="nama" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nomor WhatsApp</label>
+                            <input type="number" name="no_wa" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATA LANJUTAN (untuk Reguler & PT) -->
+                <div id="formLanjutan" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Jenis Kelamin</label>
+                                <select name="gender" class="form-control">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tanggal Lahir (TTL)</label>
+                                <input type="date" name="ttl" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Alamat Domisili</label>
+                                <input type="text" name="alamat" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATA FISIK + PERSONAL TRAINER (khusus PT) -->
+                <div id="formFisik" style="display:none;">
+                    <h6 class="text-primary font-weight-bold mt-3">Data Fisik &amp; Goals</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tinggi Badan (cm)</label>
+                                <input type="number" name="tinggi_badan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Berat Badan (kg)</label>
+                                <input type="number" name="berat_badan" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Goals / Tujuan</label>
+                                <select name="goals" class="form-control">
+                                    <option value="Muscle Gain">Muscle Gain (Otot)</option>
+                                    <option value="Bulking Program">Bulking Program</option>
+                                    <option value="Cutting Program">Cutting Program</option>
+                                    <option value="Health Maintenance">Jaga Kesehatan</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PILIH PERSONAL TRAINER -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Pilih Personal Trainer</label>
+                                <select name="personal_trainer" class="form-control">
+                                    <option value="" selected disabled>-- Pilih Personal Trainer --</option>
+                                    <option value="Putra Abdullah - Muscle Gain & Strength">
+                                        Putra Abdullah — Muscle Gain &amp; Strength 085600520194
+                                    </option>
+                                    <option value="Jule Prastini - Fat Loss & Mobility">
+                                        Jekson Karmela — Fat Loss &amp; Mobility 081234567890
+                                    </option>
+                                    <option value="Azizah Shalsa - Bulking & Nutrition">
+                                        Aziz Chalim — Bulking &amp; Nutrition 082345678901
+                                    </option>
+                                    <option value="Briella Samson - Athlete Coaching">
+                                        Briella Samson — Performance &amp; Athlete Coaching 083456789012
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- NOMINAL -->
+                <div class="form-group bg-light p-3 border rounded">
+                    <label class="font-weight-bold">Total Yang Harus Dibayar (Otomatis)</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp</span>
+                        </div>
+                        <input type="number" name="nominal" id="nominalBayar"
+                               class="form-control font-weight-bold text-dark" readonly required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg btn-block mt-4">
+                    <i class="fas fa-check-circle"></i> Simpan Data &amp; Bayar
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateForm() {
+    var program = document.getElementById("pilihProgram").value;
+    var formLanjutan = document.getElementById("formLanjutan");
+    var formFisik = document.getElementById("formFisik");
+    var nominal = document.getElementById("nominalBayar");
+
+    // reset
+    formLanjutan.style.display = "none";
+    formFisik.style.display = "none";
+
+    if (program === "Insidental") {
+        nominal.value = 35000;
+
+    } else if (program === "Reguler") {
+        formLanjutan.style.display = "block";
+        nominal.value = 150000;
+
+    } else if (program === "Personal Trainer") {
+        formLanjutan.style.display = "block";
+        formFisik.style.display = "block";
+        nominal.value = 650000;
+    }
+}
+</script>
+{% endblock %}

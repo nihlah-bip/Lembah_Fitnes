@@ -1,0 +1,188 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Judul + tombol -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
+        </a>
+    </div>
+
+    <!-- Kartu ringkasan (2 kartu, lebar, tetap memenuhi baris) -->
+    <div class="row">
+
+        <!-- Earnings (Monthly) -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Earnings (Monthly)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                Rp {{ month_income }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Annual) -->
+        <div class="col-xl-6 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Earnings (Annual)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                Rp {{ year_income }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Baris grafik -->
+    <div class="row">
+
+        <!-- Area Chart: Pemasukan Bulanan -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Pemasukan Bulanan {{ year }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="myAreaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart: Pendaftaran per Program -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Pendaftaran per Program {{ year }}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="myPieChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-primary"></i> Insidental
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-success"></i> Reguler
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-info"></i> Personal Trainer
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Data dari backend (Flask)
+    const monthLabels = {{ labels|tojson }};
+    const incomeData = {{ income_data|tojson }};
+    const registrationsData = {{ registrations_data|tojson }};
+
+    // Pastikan Chart.js sudah ada
+    if (typeof Chart !== 'undefined') {
+        // ===== Area Chart: Pemasukan Bulanan =====
+        const ctxArea = document.getElementById('myAreaChart');
+        if (ctxArea) {
+            new Chart(ctxArea, {
+                type: 'line',
+                data: {
+                    labels: monthLabels,
+                    datasets: [{
+                        label: 'Pemasukan (Rp)',
+                        data: incomeData,
+                        lineTension: 0.3,
+                        backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                        pointBorderColor: 'rgba(78, 115, 223, 1)',
+                        pointHoverRadius: 3,
+                        pointHoverBackgroundColor: 'rgba(78, 115, 223, 1)',
+                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                        pointHitRadius: 10,
+                        pointBorderWidth: 2,
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        xAxes: [{
+                            gridLines: { display: false }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            gridLines: { color: "rgba(234, 236, 244, 1)" }
+                        }]
+                    },
+                    legend: { display: false }
+                }
+            });
+        }
+
+        // ===== Pie Chart: Pendaftaran per Program =====
+        const ctxPie = document.getElementById('myPieChart');
+        if (ctxPie) {
+            const programLabels = Object.keys(registrationsData);
+            const programTotals = programLabels.map(p =>
+                registrationsData[p].reduce((a, b) => a + b, 0)
+            );
+
+            new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: programLabels,
+                    datasets: [{
+                        data: programTotals,
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    legend: { position: 'bottom' },
+                    cutoutPercentage: 70
+                }
+            });
+        }
+    } else {
+        console.error('Chart.js belum ter-load');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Area - Lembah Fitness</title>
+    <link href="{{ url_for('static', filename='admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='admin_assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow">
+        <div class="container">
+            <a class="navbar-brand font-weight-bold" href="#">
+                <i class="fas fa-dumbbell"></i> Lembah Fitness Member
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        {% if is_expired %}
+        <div class="alert alert-danger text-center shadow-lg p-5">
+            <i class="fas fa-lock fa-5x mb-3 text-danger"></i>
+            <h2 class="font-weight-bold">AKSES DITUTUP</h2>
+            <p class="lead">Maaf <strong>{{ member.nama_lengkap }}</strong>, masa keanggotaan Anda telah habis pada <strong>{{ member.tgl_habis.strftime('%d-%m-%Y') }}</strong>.</p>
+            <hr>
+            <p>Silakan hubungi Admin untuk melakukan pembayaran.</p>
+            <a href="#" class="btn btn-success"><i class="fab fa-whatsapp"></i> Hubungi Admin</a>
+        </div>
+        
+        {% else %}
+        <div class="row">
+            
+            <div class="col-md-4 mb-4">
+                <div class="card shadow h-100 border-left-primary">
+                    <div class="card-body text-center">
+                        <img src="{{ url_for('static', filename='admin_assets/img/undraw_profile.svg') }}" width="100" class="rounded-circle mb-3 bg-gray-200 p-2">
+                        <h4 class="text-dark font-weight-bold">{{ member.nama_lengkap }}</h4>
+                        <span class="badge badge-success mb-3">{{ member.program }}</span>
+                        
+                        <div class="text-left mt-3 bg-gray-100 p-3 rounded">
+                            <small class="text-muted">Masa Aktif:</small>
+                            <h5 class="font-weight-bold text-success">{{ member.tgl_habis.strftime('%d %B %Y') }}</h5>
+                            <hr>
+                            <small class="text-muted">Target / Goals:</small><br>
+                            <strong>{{ member.goals or '-' }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                
+                <div class="card shadow mb-4 border-left-warning">
+                    <div class="card-header bg-white">
+                        <h6 class="m-0 font-weight-bold text-warning"><i class="fas fa-calendar-alt"></i> Jadwal Latihan Terbaru</h6>
+                    </div>
+                    <div class="card-body">
+                        {% if logs and logs|length > 0 %}
+                            <h3 class="font-weight-bold text-gray-800">{{ logs[0].jadwal_teks }}</h3>
+                            <small class="text-muted">Diupdate tanggal: {{ logs[0].tanggal.strftime('%d-%m-%Y') }}</small>
+                        {% else %}
+                            <p class="text-center py-3">Belum ada jadwal dari Trainer.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-chart-line"></i> Riwayat Berat Badan & BMI</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal Latihan</th>
+                                        <th>Berat Badan (Kg)</th>
+                                        <th>BMI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in logs %}
+                                    <tr>
+                                        <td>{{ log.tanggal.strftime('%d-%m-%Y') }}</td>
+                                        <td>{{ log.berat_badan }}</td>
+                                        <td>{{ log.bmi }}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr><td colspan="3" class="text-center">Belum ada data latihan.</td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endif %} </div>
+
+</body>
+</html>

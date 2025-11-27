@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>{% block title %}Gym trainer | Template{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="{{ url_for('static', filename='assets/site.webmanifest') }}" />
+    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon.ico') }}" />
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.carousel.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/slicknav.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/flaticon.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/gijgo.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animate.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animated-headline.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/magnific-popup.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome-all.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/themify-icons.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/slick.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/nice-select.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/style.css') }}" />
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="black-bg">
+    <!-- ? Preloader Start -->
+    <div id="preloader-active">
+      <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+          <div class="preloader-circle"></div>
+          <div class="preloader-img pere-text">
+        <img src="{{ url_for('static', filename='assets/img/logo/lb1.png') }}"
+        width="100" height="30" style="object-fit: contain;" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Preloader Start -->
+    <header>
+      <!-- Header Start -->
+      <div class="header-area header-transparent">
+        <div class="main-header header-sticky">
+          <div class="container-fluid">
+            <div class="menu-wrapper d-flex align-items-center justify-content-between">
+              <!-- Logo -->
+              <div class="logo">
+               <a href="{{ url_for('index') }}">
+              <img src="{{ url_for('static', filename='assets/img/logo/lb1.png') }}"
+              width="300" height="90" style="object-fit: contain;" />
+              </a>
+
+              </div>
+              <!-- Main-menu -->
+              <div class="main-menu f-right d-none d-lg-block">
+                <nav>
+                  <ul id="navigation">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                    <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+                    <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <!-- Header-btn -->
+              <div class="header-btns d-none d-lg-block f-right">
+                <a href="{{ url_for('contact') }}" class="btn">Login Member</a>
+              </div>
+              <!-- Mobile Menu -->
+              <div class="col-12">
+                <div class="mobile_menu d-block d-lg-none"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Header End -->
+    </header>
+
+    <!-- Main Content -->
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer>
+      <!--? Footer Start-->
+      <div class="footer-area black-bg">
+        <div class="container">
+          <div class="footer-top footer-padding">
+            <!-- Footer Menu -->
+            <div class="row">
+              <div class="col-xl-12">
+                <div class="single-footer-caption mb-50 text-center">
+                  <!-- logo -->
+                  <div class="footer-logo wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+                  <a href="{{ url_for('index') }}">
+                  <img src="{{ url_for('static', filename='assets/img/logo/lb1.png') }}"
+                     width="500" height="200" style="object-fit: contain;" />
+                    </a>
+
+                  </div>
+                  <!-- Menu -->
+                  <!-- Header Start -->
+                  <div class="header-area main-header2 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".4s">
+                    <div class="main-header main-header2">
+                      <div class="menu-wrapper menu-wrapper2">
+                        <!-- Main-menu -->
+                        <div class="main-menu main-menu2 text-center">
+                          <nav>
+                            <ul>
+                              <li><a href="{{ url_for('index') }}">Home</a></li>
+                              <li><a href="{{ url_for('about') }}">About</a></li>
+                              <li><a href="{{ url_for('courses') }}">Courses</a></li>
+                              <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+                              <li><a href="{{ url_for('gallery') }}">Gallery</a></li>
+                              <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                            </ul>
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Header End -->
+                  <!-- social -->
+                  <div class="footer-social mt-30 wow fadeInUp" data-wow-duration="3s" data-wow-delay=".8s">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://bit.ly/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            <div class="row d-flex align-items-center">
+              <div class="col-lg-12">
+                <div class="footer-copy-right text-center">
+                  <p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;
+                    <script>
+                      document.write(new Date().getFullYear());
+                    </script>
+                    Lembah Fitness Group, Yogyakarta. All rights reserved. <i></a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer End-->
+    </footer>
+    <!-- Scroll Up -->
+    <div id="back-top">
+      <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+    </div>
+
+    <!-- JS here -->
+    <script src="{{ url_for('static', filename='assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="{{ url_for('static', filename='assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.min.js') }}"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="{{ url_for('static', filename='assets/js/jquery.slicknav.min.js') }}"></script>
+
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="{{ url_for('static', filename='assets/js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/slick.min.js') }}"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="{{ url_for('static', filename='assets/js/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/animated.headline.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.magnific-popup.js') }}"></script>
+
+    <!-- Date Picker -->
+    <script src="{{ url_for('static', filename='assets/js/gijgo.min.js') }}"></script>
+    <!-- Nice-select, sticky -->
+    <script src="{{ url_for('static', filename='assets/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.sticky.js') }}"></script>
+
+    <!-- counter , waypoint,Hover Direction -->
+    <script src="{{ url_for('static', filename='assets/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/hover-direction-snake.min.js') }}"></script>
+
+    <!-- contact js -->
+    <script src="{{ url_for('static', filename='assets/js/contact.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.form.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/mail-script.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/jquery.ajaxchimp.min.js') }}"></script>
+
+    <!-- Jquery Plugins, main Jquery -->
+    <script src="{{ url_for('static', filename='assets/js/plugins.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

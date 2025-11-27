@@ -1,0 +1,170 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Data Member{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Database Member</h1>
+        <a href="{{ url_for('registrasi') }}" class="btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> Transaksi / Member Baru
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">List Member Aktif &amp; Non-Aktif</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th width="5%">No</th>
+                            <th>Nama &amp; Program</th>
+                            <th>Goals</th>
+                            <th>Personal Trainer</th>
+                            <th>Kontak (WA)</th>
+                            <th>Berlaku Sampai</th>
+                            <th>Status</th>
+                            <th width="15%">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in members %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+
+                            <td>
+                                <div class="font-weight-bold text-dark">{{ m.nama_lengkap }}</div>
+                                {% if m.program == 'Insidental' %}
+                                    <span class="badge badge-secondary" style="font-size:0.7rem;">Harian</span>
+                                {% elif m.program == 'Reguler' %}
+                                    <span class="badge badge-info" style="font-size:0.7rem;">Reguler</span>
+                                {% elif m.program == 'Personal Trainer' %}
+                                    <span class="badge badge-warning text-dark" style="font-size:0.7rem;">Privat PT</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if m.program == 'Personal Trainer' %}
+                                    <span class="text-primary font-weight-bold">{{ m.goals or '-' }}</span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if m.program == 'Personal Trainer' %}
+                                    {{ m.personal_trainer or '-' }}
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a href="https://wa.me/{{ m.no_wa }}" target="_blank"
+                                   class="text-success font-weight-bold">
+                                    <i class="fab fa-whatsapp"></i> {{ m.no_wa }}
+                                </a>
+                            </td>
+
+                            <td>
+                                {{ m.tgl_habis.strftime('%d %b %Y') }}
+                                {% set sisa_hari = (m.tgl_habis - today_date).days %}
+                                {% if sisa_hari < 0 %}
+                                    <br><small class="text-danger font-weight-bold">(Lewat {{ sisa_hari|abs }} hari)</small>
+                                {% elif sisa_hari < 7 %}
+                                    <br><small class="text-warning font-weight-bold">(Sisa {{ sisa_hari }} hari)</small>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if m.status == 'Aktif' %}
+                                    <span class="badge badge-success px-2 py-1">Aktif</span>
+                                {% else %}
+                                    <span class="badge badge-danger px-2 py-1">Non-Aktif</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <!-- tombol detail -->
+                                <button type="button" class="btn btn-info btn-sm btn-circle"
+                                        data-toggle="modal" data-target="#detailModal{{ m.id }}"
+                                        title="Lihat Detail">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+
+                                <!-- tombol hapus -->
+                                <form action="{{ url_for('delete_member', member_id=m.id) }}"
+                                      method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm btn-circle"
+                                            onclick="return confirm('Yakin ingin menghapus member ini?');">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <!-- MODAL DETAIL -->
+                        <div class="modal fade" id="detailModal{{ m.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title">Detail Member: {{ m.nama_lengkap }}</h5>
+                                        <button class="close text-white" type="button" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <div class="row">
+                                            <div class="col-6"><strong>Program:</strong></div>
+                                            <div class="col-6">{{ m.program }}</div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-6"><strong>Goals:</strong></div>
+                                            <div class="col-6">{{ m.goals or '-' }}</div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6"><strong>Personal Trainer:</strong></div>
+                                            <div class="col-6">{{ m.personal_trainer or '-' }}</div>
+                                        </div>
+
+                                        {% if m.program == 'Personal Trainer' %}
+                                        <hr>
+                                        <div class="alert alert-warning">
+                                            <h6 class="font-weight-bold">
+                                                <i class="fas fa-dumbbell"></i> Data Fisik
+                                            </h6>
+                                            <div class="row">
+                                                <div class="col-6">Tinggi Badan:</div>
+                                                <div class="col-6 font-weight-bold">{{ m.tinggi_badan }} cm</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6">Berat Badan:</div>
+                                                <div class="col-6 font-weight-bold">{{ m.berat_badan }} kg</div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

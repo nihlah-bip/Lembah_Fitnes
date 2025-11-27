@@ -1,0 +1,139 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Kasir / Pembayaran{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <h1 class="h3 mb-4 text-gray-800">Input Pembayaran & Perpanjangan</h1>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Form Pembayaran</h6>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('payments') }}" method="POST">
+                        
+                        <div class="form-group">
+                            <label>Pilih Member</label>
+                            <select name="member_id" class="form-control" required>
+                                <option value="">-- Pilih Member --</option>
+                                {% for m in members %}
+                                    <option value="{{ m.id }}">{{ m.nama_lengkap }} (Exp: {{ m.tgl_habis.strftime('%d-%m-%Y') if m.tgl_habis else '-' }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Jenis Keanggotaan</label>
+                            <select name="jenis_keanggotaan" id="jenisKeanggotaan" class="form-control" required>
+                                <option value="">-- Pilih Jenis --</option>
+                                <option value="Insidental">Insidental</option>
+                                <option value="Reguler">Reguler</option>
+                                <option value="Personal Trainer">Personal Trainer</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nominal (Rp)</label>
+                            <input type="number" name="nominal" class="form-control" placeholder="Contoh: 150000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tambah Masa Aktif</label>
+                            <select name="masa_aktif_value" id="masaAktif" class="form-control">
+                                </select>
+                            <input type="hidden" name="masa_aktif_unit" id="masaAktifUnit" value="Bulan"> 
+                        </div>
+
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <textarea name="keterangan" class="form-control" rows="2" placeholder="Cth: Cash / Transfer BCA"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fas fa-save"></i> Simpan & Perpanjang
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Transaksi Terakhir</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Nama Member</th>
+                                    <th>Nominal</th>
+                                    <th>Ket</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in history_pembayaran %}
+                                <tr>
+                                    <td>{{ p.tanggal_bayar.strftime('%d-%m-%Y') if p.tanggal_bayar else '-' }}</td>
+                                    <td>{{ p.member.nama_lengkap if p.member else '-' }}</td>
+                                    <td>Rp {{ "{:,.0f}".format(p.nominal) if p.nominal is not none else '-' }}</td>
+                                    <td>{{ p.keterangan if p.keterangan else '-' }}</td>
+                                </tr>
+                                {% else %}
+                                <tr><td colspan="4" class="text-center">Belum ada data transaksi.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const jenisKeanggotaanSelect = document.getElementById('jenisKeanggotaan');
+        const masaAktifSelect = document.getElementById('masaAktif');
+        const masaAktifUnitInput = document.getElementById('masaAktifUnit'); // Hidden input for unit
+
+        function updateMasaAktifOptions() {
+            const selectedType = jenisKeanggotaanSelect.value;
+            masaAktifSelect.innerHTML = ''; // Clear existing options
+
+            if (selectedType === 'Insidental') {
+                masaAktifSelect.innerHTML = '<option value="1">1 Hari</option>';
+                masaAktifUnitInput.value = 'Hari'; // Set unit to Hari
+            } else if (selectedType === 'Reguler' || selectedType === 'Personal Trainer') {
+                masaAktifSelect.innerHTML = `
+                    <option value="1">1 Bulan</option>
+                    <option value="3">3 Bulan</option>
+                    <option value="6">6 Bulan</option>
+                    <option value="12">1 Tahun</option>
+                `;
+                masaAktifUnitInput.value = 'Bulan'; // Set unit to Bulan
+            } else {
+                // Default options if no type selected or unknown type
+                masaAktifSelect.innerHTML = '<option value="">-- Pilih Durasi --</option>';
+                masaAktifUnitInput.value = ''; // Clear unit
+            }
+        }
+
+        // Initial call to set correct options on page load
+        updateMasaAktifOptions();
+
+        // Add event listener for when the "Jenis Keanggotaan" changes
+        jenisKeanggotaanSelect.addEventListener('change', updateMasaAktifOptions);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,262 @@
+{% extends "public/base.html" %}
+
+{% block title %}Lembah Fitness Group | Courses{% endblock %}
+ 
+{% block content %}
+
+<main>
+    <!--? Hero Start -->
+    <div class="slider-area2">
+        <div class="slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap hero-cap2 pt-70">
+                            <h2>Courses</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+    <!-- ========================================= -->
+    <!--  SECTION: PERSONAL TRAINER PROFILE (4 KOTAK) -->
+    <!-- ========================================= -->
+    <section class="team-area black-bg section-padding30">
+        <div class="container">
+            <!-- Judul -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="1.5s" data-wow-delay=".1s">
+                        <h2 style="font-size:38px; text-transform:uppercase;">Our Personal Trainers</h2>
+                        <p style="color:#d0d0d0; margin-top:10px;">
+                            Tim pelatih bersertifikat yang siap mendampingi perjalanan fitness Anda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Kotak Trainer -->
+            <div class="row">
+ <style>
+    .team-img img {
+        width: 270px !important;
+        height: 270px !important;
+        object-fit: cover !important;
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+<!-- Trainer 1 -->
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="single-team text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+        <div class="team-img mb-20">
+            <img src="{{ url_for('static', filename='assets/img/personaltrainer/pt1.png') }}" alt="Personal Trainer 1">
+        </div>
+        <div class="team-caption">
+            <h4 style="color:#fff;">Putra Abdullah</h4>
+            <p style="color:#bbbbbb; font-size:20px; line-height:1.5;">
+                S1 Ilmu Keolahragaan<br>
+                Sertifikasi Personal Trainer Nasional<br>
+                Spesialis: Muscle Gain & Strength
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Trainer 2 -->
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="single-team text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+        <div class="team-img mb-20">
+            <img src="{{ url_for('static', filename='assets/img/personaltrainer/pt2.png') }}" alt="Personal Trainer 2">
+        </div>
+        <div class="team-caption">
+            <h4 style="color:#fff;">Jekson Karmela</h4>
+            <p style="color:#bbbbbb; font-size:20px; line-height:1.5;">
+                S1 Fisioterapi Olahraga<br>
+                Sertifikasi Functional Training<br>
+                Spesialis: Fat Loss & Mobility
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Trainer 3 -->
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="single-team text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+        <div class="team-img mb-20">
+            <img src="{{ url_for('static', filename='assets/img/personaltrainer/pt3.png') }}" alt="Personal Trainer 3">
+        </div>
+        <div class="team-caption">
+            <h4 style="color:#fff;">Aziz Chalim</h4>
+            <p style="color:#bbbbbb; font-size:20px; line-height:1.5;">
+                S1 Gizi Kesehatan<br>
+                Sertifikasi Nutrition Coach<br>
+                Spesialis: Bulking & Nutrisi Atlet
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Trainer 4 -->
+<div class="col-lg-3 col-md-6 col-sm-6">
+    <div class="single-team text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+        <div class="team-img mb-20">
+            <img src="{{ url_for('static', filename='assets/img/personaltrainer/pt4.jpg') }}" 
+                 alt="Personal Trainer 4"
+                 style="width:200px; height:200px; object-fit:cover; border-radius:10px;">
+        </div>
+        <div class="team-caption">
+            <h4 style="color:#fff;">Briella Samson, S.Or, M.Sc</h4>
+            <p style="color:#bbbbbb; font-size:20px; line-height:1.4;">
+                S2 Sport Science<br>
+                Sertifikasi Strength & Conditioning Coach<br>
+                Spesialis: Performance & Athlete Coaching
+            </p>
+        </div>
+    </div>
+</div>
+
+
+            </div> <!-- row -->
+        </div>
+    </section>
+
+    <!--? Team (PROGRAM PERSONAL TRAINING) -->
+    <section class="team-area fix">
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="section-tittle text-center mb-55 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".1s">
+              <h2 style="font-size:40px;">WHAT I OFFER IN PERSONAL TRAINING PROGRAM</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+              <div class="cat-icon">
+                <img src="{{ url_for('static', filename='assets/img/gallery/team1.png') }}" alt="" />
+              </div>
+              <div class="cat-cap">
+                <h5><a href="{{ url_for('services') }}">Muscle Gain</a></h5>
+                <p>Bangun massa otot padat dan kekuatan tubuh maksimal dengan program terarah.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".4s">
+              <div class="cat-icon">
+                <img src="{{ url_for('static', filename='assets/img/gallery/team2.png') }}" alt="" />
+              </div>
+              <div class="cat-cap">
+                <h5><a href="{{ url_for('services') }}">Cutting Program</a></h5>
+                <p>Turunkan lemak tubuh dan definisikan otot Anda melalui diet serta latihan yang tepat.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="single-cat text-center mb-30 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".6s">
+              <div class="cat-icon">
+                <img src="{{ url_for('static', filename='assets/img/gallery/team3.png') }}" alt="" />
+              </div>
+              <div class="cat-cap">
+                <h5><a href="{{ url_for('services') }}">Bulking Program</a></h5>
+                <p>Tingkatkan ukuran dan kekuatan otot secara signifikan dengan strategi nutrisi dan latihan intensif.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Traning categories Start -->
+    <section class="traning-categories black-bg">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="single-topic text-center mb-30">
+              <div class="topic-img">
+                <img src="{{ url_for('static', filename='assets/img/gallery/cat1.png') }}" alt="" />
+                <div class="topic-content-box">
+                  <div class="topic-content">
+                    <h3>Personal traning</h3>
+                    <p>
+                      Bimbingan eksklusif dari Pelatih Pribadi. Termasuk program latihan terencana, konsultasi mendalam, saran nutrisi personal, dan penjadwalan latihan bulanan.
+                    </p>
+                    <a href="{{ url_for('courses') }}" class="border-btn">View Courses</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="single-topic text-center mb-30">
+              <div class="topic-img">
+                <img src="{{ url_for('static', filename='assets/img/gallery/cat2.png') }}" alt="" />
+                <div class="topic-content-box">
+                  <div class="topic-content">
+                    <h3>Reguler Member</h3>
+                    <p>
+                      Akses mandiri ke seluruh fasilitas gym setiap hari. Sistem keanggotaan fleksibel dengan pembayaran bulanan yang terjangkau.
+                    </p>
+                    <a href="{{ url_for('courses') }}" class="btn">View Courses</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Traning categories End-->
+
+    <!-- ? services-area -->
+    <section class="services-area">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+            <div class="single-services mb-40 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".1s">
+              <div class="features-icon">
+                <img src="{{ url_for('static', filename='assets/img/icon/icon1.svg') }}" alt="" />
+              </div>
+              <div class="features-caption">
+                <h3>Location</h3>
+                <p>Jl. Babarsari No.3, Janti, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+            <div class="single-services mb-40 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+              <div class="features-icon">
+                <img src="{{ url_for('static', filename='assets/img/icon/icon2.svg') }}" alt="" />
+              </div>
+              <div class="features-caption">
+                <h3>Phone</h3>
+                <p>082135362079</p>
+                <p>085600520194</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+            <div class="single-services mb-40 wow fadeInUp" data-wow-duration="2s" data-wow-delay=".4s">
+              <div class="features-icon">
+                <img src="{{ url_for('static', filename='assets/img/icon/icon3.svg') }}" alt="" />
+              </div>
+              <div class="features-caption">
+                <h3>Instagram</h3>
+                <a href="https://instagram.com/lembahfitnessgroup" target="_blank">@lembahfitnessgroup</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+</main>
+
+{% endblock %}

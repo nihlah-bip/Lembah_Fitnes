@@ -1,0 +1,77 @@
+{% extends 'admin/base.html' %}
+{% block title %}Dashboard Trainer{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Halo Coach, {{ session.username }}!</h1>
+
+    <div class="row">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Member Binaan Saya</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ my_members_count }} Orang</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Klien Active</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nama Member</th>
+                            <th>Goals</th>
+                            <th>Progress Terakhir</th>
+                            <th>Jadwal Latihan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for m in my_members %}
+                        <tr>
+                            <td>{{ m.nama_lengkap }}</td>
+                            <td><span class="badge badge-info">{{ m.goals }}</span></td>
+                            <td>
+                                {% if m.latihan %}
+                                    {{ m.latihan[-1].berat_badan }} Kg / BMI: {{ m.latihan[-1].bmi }}
+                                {% else %}
+                                    <small>Belum ada data</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if m.latihan %}
+                                    {{ m.latihan[-1].jadwal_teks }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('training') }}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-edit"></i> Update Progres
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="5" class="text-center">Belum ada member yang di-assign ke Anda.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
